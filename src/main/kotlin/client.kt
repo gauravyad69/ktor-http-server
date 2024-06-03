@@ -15,7 +15,8 @@ fun main() {
             val text = getTextFromServer(serverUrl)
             println("Server responded with text: $text")
         } else {
-            println("Credentials are wrong")
+            val gotthishsit = getAuthStatusNigga(serverUrl)
+            println("Credentials are wrong $gotthishsit")
         }
     } else {
         println("Server is not running")
@@ -58,6 +59,19 @@ fun areCredentialsValid(serverUrl: String, username: String, password: String): 
 fun getTextFromServer(serverUrl: String): String? {
     return try {
         val url = URL("$serverUrl/text")
+        val connection = url.openConnection() as HttpURLConnection
+        connection.requestMethod = "GET"
+
+        connection.inputStream.bufferedReader().readText()
+    } catch (e: Exception) {
+        null
+    }
+}
+
+
+fun getAuthStatusNigga(serverUrl: String): String? {
+    return try {
+        val url = URL("$serverUrl/login")
         val connection = url.openConnection() as HttpURLConnection
         connection.requestMethod = "GET"
 
